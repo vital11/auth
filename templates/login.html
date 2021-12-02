@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<style type="text/css">
+    input {
+        display: block;
+        margin-bottom: 5px;
+        padding: 15px;
+        font-size: 15px;
+        outline: none;
+        border: 1px slategray;
+        border-radius: 3px;
+        width: 100%;
+    }
+    form {
+        width: 95%;
+        min-width: 250px;
+        max-width: 500px;
+    }
+    .placeholder {
+        background-color: slategray;
+        flex: 1;
+    }
+    body {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        background-color: silver;
+        align-items: center;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function(){
+    let btn = document.querySelector('input[type=submit]');
+    btn.addEventListener('click', async function(event) {
+        event.preventDefault();
+        let response = await fetch('/login', {
+            method: 'POST',
+            body: new FormData(document.querySelector('form'))
+        });
+        let response_json = await response.json();
+        if (response_json.success) {
+            let body = document.querySelector('body');
+            body.style.display = 'block';
+            body.style.backgroundColor = 'rosybrown'
+            body.innerHTML = response_json.message;
+        }
+    })
+})
+</script>
+
+
+<body>
+    <div class="placeholder"></div>
+
+    <form method="POST" action="/login">
+        <input type="text" name="username" />
+        <input type="password" name="password" />
+        <input type="submit" value="Sign In">
+    </form>
+
+    <div class="placeholder"></div>
+</body>
+
+</html>
